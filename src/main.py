@@ -19,7 +19,7 @@ FPS = 60
 
 # Game objects
 dungeon = Dungeon(map_width, map_height, tile_size)
-player = Player(5, 5, tile_size)
+player = Player(5, 5, tile_size, map_width, map_height)
 enemy = Enemy(10, 10, tile_size)
 
 camera = Camera(map_width, map_height, screen_width, screen_height, tile_size)
@@ -40,8 +40,10 @@ while running:
     for tile in dungeon.tiles:
         screen_rect = camera.apply(tile.rect)
         screen.blit(tile.image, screen_rect)
+
     screen.blit(enemy.image, camera.apply(enemy.rect))
     screen.blit(player.image, camera.apply(player.rect))
+    player.draw_health_bar(screen)
 
     pygame.display.flip()
     clock.tick(FPS)
