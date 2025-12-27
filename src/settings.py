@@ -1,9 +1,9 @@
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-TILE_SIZE = 32
+screen_width = 800
+screen_height = 600
+tile_size = 32
 
-MAP_WIDTH = 50
-MAP_HEIGHT = 40
+map_width = 50
+map_height = 40
 
 FPS = 60
 

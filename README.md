@@ -1,38 +1,79 @@
-# Procedural Dungeon Crawler (Python)
+# Procedural Dungeon Crawler
 
-A 2D procedural dungeon crawler built using Python and Pygame.  
-This project focuses on clean gameplay systems, procedural generation, and iterative development.
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Pygame](https://img.shields.io/badge/Pygame-2.3-brightgreen)
+![Version](https://img.shields.io/badge/Version-v1.1.0-yellow)
 
----
+## Overview
 
-## 🎮 Features (v1.0.0)
+This is a **Python-based procedural dungeon crawler** demonstrating:
 
-- Procedural dungeon generation (rooms + corridors)
-- Tile-based world representation
-- Player movement with collision detection
-- Deterministic game loop using Pygame
+- Procedural dungeon generation
+- Smooth player movement
+- Modular code structure for scalability
+- Camera system to follow the player in large maps
 
----
-
-## 🧠 Technical Focus
-
-- Procedural content generation
-- Separation of concerns (dungeon, entities, systems)
-- Scalable project structure
-- Versioned updates and clean commits
+This project is designed as a **professional portfolio piece** showcasing **Python programming, game development fundamentals, and clean code organization**.
 
 ---
 
-## 🛠 Tech Stack
+## Project Structure
 
-- Python 3.11+
-- Pygame
-- Git & GitHub
+src/
+<br>├── main.py # Main game loop
+<br>├── dungeon/
+<br>│ ├── init.py
+<br>│ └── generator.py # Procedural dungeon generation
+<br>├── entities/
+<br>│ ├── init.py
+<br>│ └── player.py # Player class and movement
+<br>└── systems/
+<br>├── init.py
+<br>└── camera.py # Camera system for smooth scrolling
+
 
 ---
 
-## ▶️ How to Run
+## Controls
+
+- **Arrow Keys** – Move the player  
+- **ESC / Close Window** – Exit game
+
+---
+
+## Getting Started
+
+1. **Clone the repository:**
 
 ```bash
+git clone https://github.com/<your-username>/<repo-name>.git
+cd <repo-name>/src
+
+```
+2. **Install Dependencies:**
+```bash
 pip install pygame
-python src/main.py
+```
+3. **Run the game:**
+```bash
+python main.py
+```
+## Version History
+
+v1.0.0 – Initial release: procedural dungeon generation and player movement
+
+v1.1.0 – Added camera system for smooth scrolling and improved visuals
+
+## Future Plans
+
+Add enemies, NPCs, and items
+
+Implement more advanced dungeon generation algorithms
+
+Add combat and interactive systems
+
+Optimize camera with smooth lerp transitions
+
+## Author
+
+Aardran Premakumar

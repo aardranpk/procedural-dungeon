@@ -1,49 +1,64 @@
 import pygame
-from settings import *
-from dungeon.generator import DungeonGenerator
+from dungeon.generator import Dungeon
 from entities.player import Player
+from systems.camera import Camera
+
+# ------------------------
+# Screen and map settings
+# ------------------------
+screen_width = 800
+screen_height = 600
+tile_size = 32
+map_width = 50
+map_height = 50
 
 pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Procedural Dungeon")
+screen = pygame.display.set_mode((screen_width, screen_height))
+pygame.display.set_caption("Procedural Dungeon Crawler")
+
 clock = pygame.time.Clock()
+FPS = 60
 
-generator = DungeonGenerator(MAP_WIDTH, MAP_HEIGHT)
-game_map, rooms = generator.generate()
+# ------------------------
+# Create game objects
+# ------------------------
+dungeon = Dungeon(map_width, map_height, tile_size)
+player = Player(5, 5, tile_size)
 
-player_x, player_y = rooms[0].center()
-player = Player(player_x, player_y)
+# Initialize camera
+camera = Camera(map_width, map_height, screen_width, screen_height, tile_size)
 
+# ------------------------
+# Main game loop
+# ------------------------
 running = True
 while running:
-    clock.tick(FPS)
-
+    # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player.move(0, -1, game_map)
-    if keys[pygame.K_s]:
-        player.move(0, 1, game_map)
-    if keys[pygame.K_a]:
-        player.move(-1, 0, game_map)
-    if keys[pygame.K_d]:
-        player.move(1, 0, game_map)
+    # ------------------------
+    # Update game logic
+    # ------------------------
+    player.update()                     # update player movement
+    camera.update(player.x, player.y)   # update camera to follow player
 
-    screen.fill((0, 0, 0))
+    # ------------------------
+    # Draw everything
+    # ------------------------
+    screen.fill((0, 0, 0))  # clear screen
 
-    for x in range(MAP_WIDTH):
-        for y in range(MAP_HEIGHT):
-            color = COLORS["floor"] if game_map[x][y] == 0 else COLORS["wall"]
-            pygame.draw.rect(
-                screen,
-                color,
-                (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-            )
+    # Draw dungeon tiles
+    for tile in dungeon.tiles:
+        screen_rect = camera.apply(tile.rect)
+        screen.blit(tile.image, screen_rect)
 
-    player.draw(screen)
+    # Draw player
+    screen_rect = camera.apply(player.rect)
+    screen.blit(player.image, screen_rect)
+
     pygame.display.flip()
+    clock.tick(FPS)
 
 pygame.quit()

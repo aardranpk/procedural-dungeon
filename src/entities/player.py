@@ -1,24 +1,27 @@
 import pygame
-from settings import TILE_SIZE, COLORS
-
 
 class Player:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.hp = 100
+    def __init__(self, grid_x, grid_y, tile_size):
+        self.tile_size = tile_size
+        self.x = grid_x * tile_size
+        self.y = grid_y * tile_size
+        self.width = tile_size
+        self.height = tile_size
+        self.image = pygame.Surface((tile_size, tile_size))
+        self.image.fill((255, 0, 0))  # red player
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.speed = 4  # pixels per frame
 
-    def move(self, dx, dy, game_map):
-        nx = self.x + dx
-        ny = self.y + dy
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.x -= self.speed
+        if keys[pygame.K_RIGHT]:
+            self.x += self.speed
+        if keys[pygame.K_UP]:
+            self.y -= self.speed
+        if keys[pygame.K_DOWN]:
+            self.y += self.speed
 
-        if game_map[nx][ny] == 0:
-            self.x = nx
-            self.y = ny
-
-    def draw(self, screen):
-        pygame.draw.rect(
-            screen,
-            COLORS["player"],
-            (self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-        )
+        # Update rect for camera
+        self.rect.topleft = (self.x, self.y)
