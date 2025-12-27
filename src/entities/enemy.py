@@ -1,6 +1,7 @@
 import pygame
+import random
 
-class Player:
+class Enemy:
     def __init__(self, grid_x, grid_y, tile_size):
         self.tile_size = tile_size
         self.x = grid_x * tile_size
@@ -8,30 +9,18 @@ class Player:
         self.width = tile_size
         self.height = tile_size
         self.image = pygame.Surface((tile_size, tile_size))
-        self.image.fill((255, 0, 0))
+        self.image.fill((0, 0, 255))  # blue enemy
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
-        self.speed = 4
+        self.speed = 2
 
     def update(self, dungeon_tiles):
-        keys = pygame.key.get_pressed()
-        dx, dy = 0, 0
-        if keys[pygame.K_LEFT]:
-            dx -= self.speed
-        if keys[pygame.K_RIGHT]:
-            dx += self.speed
-        if keys[pygame.K_UP]:
-            dy -= self.speed
-        if keys[pygame.K_DOWN]:
-            dy += self.speed
-
-        # Tentative new position
+        # Random movement
+        dx, dy = random.choice([(self.speed,0), (-self.speed,0), (0,self.speed), (0,-self.speed), (0,0)])
         new_rect = self.rect.move(dx, dy)
 
-        # Collision detection with wall tiles
+        # Collision with walls
         for tile in dungeon_tiles:
-            # Assuming dark tiles are walls
             if tile.image.get_at((0, 0)) == (30, 30, 30, 255) and new_rect.colliderect(tile.rect):
-                # Block movement on collision
                 dx = dy = 0
                 break
 
